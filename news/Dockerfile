@@ -17,7 +17,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copia el archivo JAR generado en la fase de construcción al contenedor
-COPY --from=build /app/target/service-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/news-0.0.1-SNAPSHOT.jar app.jar
 
 # Exponer el puerto 8080, que es el puerto por defecto de Spring Boot
 EXPOSE 8081
