@@ -1,26 +1,27 @@
-# Utiliza una imagen base con OpenJDK 17 y Maven para construir la aplicación
-FROM maven:3.8.4-openjdk-17 AS build
+# Etapa 1: Construcción
+FROM maven:3.8.6-openjdk-17 AS build
 
-# Establece el directorio de trabajo dentro del contenedor
+# Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos de tu proyecto al directorio de trabajo
-COPY . .
+# Copia el archivo pom.xml y el directorio src para aprovechar el caché de Docker
+COPY pom.xml .
+COPY src ./src
 
-# Construye la aplicación utilizando Maven (sin ejecutar los tests para mayor rapidez)
+# Construye la aplicación (sin ejecutar los tests para mayor rapidez)
 RUN mvn clean install -DskipTests
 
-# Utiliza una imagen más ligera de OpenJDK 17 para ejecutar la aplicación
+# Etapa 2: Ejecución
 FROM openjdk:17-jdk-slim
 
-# Establece el directorio de trabajo para la ejecución
+# Establece el directorio de trabajo
 WORKDIR /app
 
 # Copia el archivo JAR generado en la fase de construcción al contenedor
-COPY --from=build /app/target/news-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/demo-0.0.1-SNAPSHOT.jar app.jar
 
-# Exponer el puerto 8080, que es el puerto por defecto de Spring Boot
-EXPOSE 8081
+# Exponer el puerto en el que la aplicación escuchará
+EXPOSE 8080
 
 # Comando para ejecutar la aplicación
 ENTRYPOINT ["java", "-jar", "app.jar"]
