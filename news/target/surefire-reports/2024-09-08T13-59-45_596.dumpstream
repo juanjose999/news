@@ -1,0 +1,5 @@
+# Created at 2024-09-08T13:59:48.555
+Boot Manifest-JAR contains absolute paths in classpath 'D:\programacion\ejercicios\Java\NewsMatchingMongo\news\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
